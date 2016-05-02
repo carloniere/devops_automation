@@ -15,7 +15,11 @@ public class Locators {
 		lines = textUtil.read(workspace + "/lib/locators.txt");
 	}
 	
-	public Locator getLocator(String page, String name) {
+	/* 
+	 * 
+	 */
+	
+	public Locator getLocator(String page, String dataObject, String name) {
 		Locator locator = null;
 		boolean pageFound = false;
 		Enumeration<String> lines = this.lines.elements();
@@ -25,13 +29,16 @@ public class Locators {
 			if(pageFound) {
 				if(current.contains(name)) {
 					String[] array = current.split(" \\| ");
-					
+					if(array.length == 5) 
+						locator = new Locator(array[0], array[1], array[2], array[3], array[4]);
+					else
+						locator = new Locator(array[0], array[1], array[2], array[3], "");
 				}
 			}
 			
-			if(current.startsWith(">>") && current.contains(page))  {
-				if(pageFound) pageFound = false;
-				else pageFound = true;
+			if(current.startsWith(">>"))  {
+				if(current.contains(page)) pageFound = true;
+				else pageFound = false;
 			}
 		}
 		
