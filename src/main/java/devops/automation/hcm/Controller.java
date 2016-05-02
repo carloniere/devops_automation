@@ -2,6 +2,8 @@ package devops.automation.hcm;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Enumeration;
+import java.util.Vector;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,14 +11,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import devops.automation.data.Instructions;
 import devops.automation.utilities.ExcelReader;
 
 public class Controller {
 	// private properties
 	private WebDriver driver = null;
 	private ExcelReader excelReader = null;
-	
-	
+	private String workspace = null;
+	private String excelpath = null;
 	
 	/* Initialize the WebDriver
 	 * @param String seleniumHub - URL of selenium hub
@@ -25,9 +28,10 @@ public class Controller {
 	public void initializeController(String seleniumHub, String browser, String workspace, String excelPath) {
 		try {
 			driver = new RemoteWebDriver(new URL(seleniumHub), getCapability(browser));
-
-			excelReader = new ExcelReader();
-			excelReader.loadExcelFile(excelPath + "/exelon-configurations.xlsx");
+			this.workspace = workspace;
+			this.excelpath = excelpath;
+			/*excelReader = new ExcelReader();
+			excelReader.loadExcelFile(excelPath + "/exelon-configurations.xlsx");*/
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,8 +45,15 @@ public class Controller {
 	 */
 	public boolean execute(String dataObject) {
 		
-		login(getLoginCredentials("URL"), getLoginCredentials("USERID"), getLoginCredentials("PASSWORD"));
+		//login(getLoginCredentials("URL"), getLoginCredentials("USERID"), getLoginCredentials("PASSWORD"));
+		Instructions ins = new Instructions(workspace);
+		Vector<String> set = ins.getInstructionSet(dataObject);
+		Enumeration<String> steps = set.elements();
 		
+		while(steps.hasMoreElements()) {
+			String current = steps.nextElement();
+			System.out.println(current);
+		}
 		
 		dispose();
 		return false;

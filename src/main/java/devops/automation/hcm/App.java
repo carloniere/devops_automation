@@ -41,7 +41,7 @@ public class App
 			Controller control = new Controller();
 			
 			control.initializeController(seleniumHub, browser, workspace, excelPath);
-			control.execute("test");
+			control.execute(dataObject);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
