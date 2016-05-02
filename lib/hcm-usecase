@@ -1,8 +1,8 @@
-[Manage Data Role and Security Profile]
+[Manage Data Role and Security Profiles]
 click|navigator
 click|setup and maintenance
 click|collapse pane
 click|all task
-input|search task
+input|search box
 click|search
 click|go to task

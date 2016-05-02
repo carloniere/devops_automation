@@ -2,7 +2,9 @@
 navigator | button | xpath | //img[@alt='Navigator']
 setup and maintenance | button | linktext | Setup and Maintenance | setup and maintenance
 >>setup and maintenance
+all task | button | xpath | //div/a[text()='All Tasks']
+collapse pane | button | xpath | //img[@title='Collapse Pane']
 search box | textbox | xpath | //span/label[text()=' Name']/../input
-search | button | xpath | //button[text()='Search'] | page
-
->>page
+search | button | xpath | //button[text()='Search']
+go to task | button | xpath | //span[text()='" + key + "']/../../../td/a/img[@title='Go to Task']
+>>

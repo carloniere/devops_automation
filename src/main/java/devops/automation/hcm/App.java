@@ -27,7 +27,7 @@ public class App
     	String excelPath = null;
     	String seleniumHub = null;
     	String browser = null;
-
+    	
     	CommandLineParser parser = new DefaultParser();
     	try {
 			CommandLine cmd = parser.parse(options, args);
@@ -39,7 +39,7 @@ public class App
 			if(cmd.hasOption("b")) browser = cmd.getOptionValue("b");
 			
 			Controller control = new Controller();
-			
+			System.out.println("Start");
 			control.initializeController(seleniumHub, browser, workspace, excelPath);
 			control.execute(dataObject);
 		} catch (ParseException e) {
