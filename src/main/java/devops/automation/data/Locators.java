@@ -19,7 +19,7 @@ public class Locators {
 	 * 
 	 */
 	
-	public Locator getLocator(String page, String dataObject, String name) {
+	public Locator getLocator(String page, String name) {
 		Locator locator = null;
 		boolean pageFound = false;
 		Enumeration<String> lines = this.lines.elements();

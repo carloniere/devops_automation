@@ -30,8 +30,8 @@ public class Controller {
 			driver = new RemoteWebDriver(new URL(seleniumHub), getCapability(browser));
 			this.workspace = workspace;
 			this.excelpath = excelpath;
-			/*excelReader = new ExcelReader();
-			excelReader.loadExcelFile(excelPath + "/exelon-configurations.xlsx");*/
+			excelReader = new ExcelReader();
+			excelReader.loadExcelFile(excelPath + "/exelon-configurations.xlsx");
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
