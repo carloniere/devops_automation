@@ -1,0 +1,6 @@
+>>main
+navigator | button | xpath | //img[@alt='Navigator']
+setup and maintenance | button | linktext | Setup and Maintenance | setup and maintenance
+>>setup and maintenance
+search box | textbox | xpath | //span/label[text()=' Name']/../input
+search | button | xpath | //button[text()='Search']

@@ -38,6 +38,10 @@ public class App
 			if(cmd.hasOption("h")) seleniumHub = cmd.getOptionValue("h");
 			if(cmd.hasOption("b")) browser = cmd.getOptionValue("b");
 			
+			Controller control = new Controller();
+			
+			control.initializeController(seleniumHub, browser, workspace, excelPath);
+			control.execute("test");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

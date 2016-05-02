@@ -10,7 +10,7 @@ public class TextUtility {
 	private Vector<String> lines = null;
 	private int size = 0;
 	
-	public void read(String path) {
+	public Vector<String> read(String path) {
 		try {
 			lines = new Vector<String>();
 			String sCurrentLine = null;
@@ -18,8 +18,12 @@ public class TextUtility {
 			while ((sCurrentLine = br.readLine()) != null) {
 				lines.addElement(sCurrentLine);
 			}
+			return lines;
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
+		return lines;
 	}
+	
+	
 }
