@@ -10,7 +10,7 @@ public class Locators {
 	private TextUtility textUtil = null;
 	private Vector<String> lines = null;
 
-	public Locators(String workspace, String page, String name) {
+	public Locators(String workspace) {
 		textUtil = new TextUtility();
 		lines = textUtil.read(workspace + "/lib/locators.txt");
 	}
@@ -28,11 +28,16 @@ public class Locators {
 			
 			if(pageFound) {
 				if(current.contains(name)) {
+					System.out.println(current);
 					String[] array = current.split(" \\| ");
-					if(array.length == 5) 
+					if(array.length == 5) {
 						locator = new Locator(array[0], array[1], array[2], array[3], array[4]);
-					else
+						break;
+					}
+					else {
 						locator = new Locator(array[0], array[1], array[2], array[3], "");
+						break;
+					}
 				}
 			}
 			

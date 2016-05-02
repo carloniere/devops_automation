@@ -10,16 +10,24 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import devops.automation.data.Instructions;
+import devops.automation.data.Locator;
+import devops.automation.data.Locators;
 import devops.automation.utilities.ExcelReader;
+import devops.automation.utilities.SeleniumUtility;
 
 public class Controller {
 	// private properties
+	private static final long ELEMENT_APPEAR = 120L;
 	private WebDriver driver = null;
+	private WebDriverWait wait = null;
 	private ExcelReader excelReader = null;
 	private String workspace = null;
 	private String excelpath = null;
+	private String currentPage = "main";
+	
 	
 	/* Initialize the WebDriver
 	 * @param String seleniumHub - URL of selenium hub
@@ -28,8 +36,9 @@ public class Controller {
 	public void initializeController(String seleniumHub, String browser, String workspace, String excelPath) {
 		try {
 			driver = new RemoteWebDriver(new URL(seleniumHub), getCapability(browser));
+			wait = new WebDriverWait(driver, ELEMENT_APPEAR);
 			this.workspace = workspace;
-			this.excelpath = excelpath;
+			this.excelpath = excelPath;
 			excelReader = new ExcelReader();
 			excelReader.loadExcelFile(excelPath + "/exelon-configurations.xlsx");
 		} catch (MalformedURLException e) {
@@ -45,14 +54,32 @@ public class Controller {
 	 */
 	public boolean execute(String dataObject) {
 		
-		//login(getLoginCredentials("URL"), getLoginCredentials("USERID"), getLoginCredentials("PASSWORD"));
 		Instructions ins = new Instructions(workspace);
 		Vector<String> set = ins.getInstructionSet(dataObject);
 		Enumeration<String> steps = set.elements();
 		
+		Locators locators = new Locators(workspace);
+		
+		login(getLoginCredentials("URL"), getLoginCredentials("USERID"), getLoginCredentials("PASSWORD"));
+		
+		
+		
 		while(steps.hasMoreElements()) {
 			String current = steps.nextElement();
+			String[] array = current.split("\\|");
+			Locator locator = locators.getLocator(currentPage, array[1]);
+			
+			if(!locator.getPage().isEmpty()) currentPage = locator.getPage();
+			
+			SeleniumUtility.action(wait, locator.getName(), locator.getType(), locator.getLocatorType(), locator.getLocator(), "");
 			System.out.println(current);
+		}
+		
+		try {
+			Thread.sleep(30000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		dispose();
