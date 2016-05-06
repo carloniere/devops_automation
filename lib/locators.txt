@@ -6,5 +6,4 @@ all task | button | xpath | //div/a[text()='All Tasks']
 collapse pane | button | xpath | //img[@title='Collapse Pane']
 search box | textbox | xpath | //span/label[text()=' Name']/../input
 search | button | xpath | //button[text()='Search']
-go to task | button | xpath | //span[text()='" + key + "']/../../../td/a/img[@title='Go to Task']
->>
+go to task | button | xpath | //span[text()='~']/../../../td/a/img[@title='Go to Task'] | custom
