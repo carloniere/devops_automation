@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,6 +19,7 @@ import devops.automation.data.Locator;
 import devops.automation.data.Locators;
 import devops.automation.utilities.ExcelReader;
 import devops.automation.utilities.SeleniumUtility;
+import devops.automation.utilities.ExtendedFirefoxDriver;
 
 public class Controller {
 	// private properties
@@ -37,7 +39,16 @@ public class Controller {
 	 */
 	public void initializeController(String seleniumHub, String browser, String workspace, String excelPath) {
 		try {
-			driver = new RemoteWebDriver(new URL(seleniumHub), getCapability(browser));
+			if(seleniumHub.contentEquals("local"))
+			{
+				if(browser.contentEquals("firefox"))
+					driver = new ExtendedFirefoxDriver(getCapability(browser));
+				else {
+					System.setProperty("webdriver.chrome.driver", workspace + "/lib/chromedriver_win32/chromedriver.exe");
+					driver = new ChromeDriver();
+				}
+			} else
+				driver = new RemoteWebDriver(new URL(seleniumHub),getCapability(browser));
 			wait = new WebDriverWait(driver, ELEMENT_APPEAR);
 			this.workspace = workspace;
 			this.excelpath = excelPath;
@@ -70,7 +81,6 @@ public class Controller {
 		dispose();
 		return false;
 	}
-	
 	
 	public void login(String siteURL, String username, String password) {
 		System.out.println("----------------------------------------------------------------------------------------");
@@ -179,6 +189,9 @@ public class Controller {
 		} else if(instructions[1].contentEquals("clickable")) {
 			Locator locator = locators.getLocator(dataObject, currentPage, instructions[2]);
 			wait.until(ExpectedConditions.elementToBeClickable(SeleniumUtility.getLocator(locator.getLocatorType(), locator.getLocator())));
+		} else if(instructions[1].contentEquals("visible")) {
+			Locator locator = locators.getLocator(dataObject, currentPage, instructions[2]);
+			wait.until(ExpectedConditions.visibilityOf(SeleniumUtility.getElement(wait, locator.getLocatorType(), locator.getLocator())));
 		}
 		
 		return true;
@@ -192,6 +205,7 @@ public class Controller {
 	protected DesiredCapabilities getCapability(String browser) {
 		try {
 			if (browser.contentEquals("firefox")) return DesiredCapabilities.firefox();
+			else if(browser.contentEquals("chrome")) return DesiredCapabilities.chrome();
 			else return DesiredCapabilities.firefox();
 		} catch (Exception e) {
 			

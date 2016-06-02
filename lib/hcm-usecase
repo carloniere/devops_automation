@@ -2,11 +2,9 @@
 excelsheet|Data Role and Security Profiles
 click|navigator
 click|setup and maintenance
-click|collapse pane
-click|all task
 input|search box|0|0
 click|search
 click|go to task|0|0
-wait|time|30000
+wait|visible|30000
 screenshot|before_change
 [Manage Legal Entities]
